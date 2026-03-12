@@ -69,6 +69,3 @@ http://localhost:8787
 This project was built as part of a Cloudflare Software Engineering Internship application.
 
 The goal was to build a simple AI-powered application using Cloudflare's developer platform.
-
-
-Vastalie Kayowa
