@@ -177,12 +177,12 @@ Avoid markdown symbols like ** or bullet points unless really needed.
     sendBtn.addEventListener("click", sendMessage);
 
     messageInput.addEventListener("keydown", function(event) {
-      if (event.key === "Enter" && !event.shiftKey) {
-      event.preventDefault();
-      sendMessage();
-           }
-      });
-
+     if (event.key === "Enter" && !event.shiftKey) {
+       event.preventDefault();
+       sendBtn.click();
+      }
+    });
+    
       function addMessage(text, sender) {
         const div = document.createElement("div");
         div.className = "message " + sender;
