@@ -167,60 +167,65 @@ Avoid markdown symbols like ** or bullet points unless really needed.
     </div>
   </main>
 
-  <script>
-    window.addEventListener("load", function () {
-      const chatBox = document.getElementById("chatBox");
-      const messageInput = document.getElementById("messageInput");
-      const sendBtn = document.getElementById("sendBtn");
-      const resetBtn = document.getElementById("resetBtn");
+ <script>
+  window.addEventListener("load", function () {
+    const chatBox = document.getElementById("chatBox");
+    const messageInput = document.getElementById("messageInput");
+    const sendBtn = document.getElementById("sendBtn");
+    const resetBtn = document.getElementById("resetBtn");
 
-    sendBtn.addEventListener("click", sendMessage);
+    function addMessage(text, sender) {
+      const div = document.createElement("div");
+      div.className = "message " + sender;
+      div.textContent = text;
+      chatBox.appendChild(div);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
 
-    messageInput.addEventListener("keydown", function(event) {
-     if (event.key === "Enter" && !event.shiftKey) {
-       event.preventDefault();
-       sendBtn.click();
+    async function sendMessage() {
+      const text = messageInput.value.trim();
+      if (!text) return;
+
+      addMessage(text, "user");
+      messageInput.value = "";
+
+      try {
+        const response = await fetch("/api/chat", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ message: text })
+        });
+
+        const data = await response.json();
+        addMessage(data.reply || "No reply received.", "assistant");
+      } catch (error) {
+        addMessage("Something went wrong.", "assistant");
+      }
+    }
+
+    sendBtn.addEventListener("click", function () {
+      sendMessage();
+    });
+
+    resetBtn.addEventListener("click", function () {
+      chatBox.innerHTML = "";
+      addMessage("Hi, I’m your interview coach. Tell me what role you’re preparing for, or ask me to start with a mock interview question.", "assistant");
+      messageInput.value = "";
+      messageInput.focus();
+    });
+
+    messageInput.addEventListener("keydown", function (event) {
+      if (event.key === "Enter" && !event.shiftKey) {
+        event.preventDefault();
+        sendMessage();
       }
     });
-    
-      function addMessage(text, sender) {
-        const div = document.createElement("div");
-        div.className = "message " + sender;
-        div.textContent = text;
-        chatBox.appendChild(div);
-        chatBox.scrollTop = chatBox.scrollHeight;
-      }
 
-      sendBtn.addEventListener("click", async function () {
-        const text = messageInput.value.trim();
-        if (!text) return;
-
-        addMessage(text, "user");
-        messageInput.value = "";
-
-        try {
-          const response = await fetch("/api/chat", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ message: text })
-          });
-
-          const data = await response.json();
-          addMessage(data.reply || "No reply received.", "assistant");
-        } catch (error) {
-          addMessage("Something went wrong.", "assistant");
-        }
-      });
-
-      resetBtn.addEventListener("click", function () {
-        chatBox.innerHTML = "";
-        addMessage("Hi, I’m ready when you are. Tell me what role you’re preparing for.", "assistant");
-        messageInput.value = "";
-      });
-    });
-  </script>
+    messageInput.focus();
+  });
+</script>
 </body>
 </html>
     `;
