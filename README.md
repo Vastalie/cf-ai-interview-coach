@@ -51,7 +51,7 @@ AI:
 Hi, I’m your interview coach. Tell me what role you’re preparing for, or ask me to start with a mock interview question.
 
 
-Example 1 – Interview answer feedback
+Example 1: Interview answer feedback
 
 User:
 "I enjoy building secure applications and solving technical problems."
@@ -66,7 +66,7 @@ Improvement: Try adding a short example of a project where you implemented a sec
 Follow-up question: Can you describe a project where you improved the security of an application?
 
 
-Example 2 – Asking a normal question
+Example 2: Asking a normal question
 
 User:
 "What should I include in a good answer to the question 'Tell me about yourself'?"
