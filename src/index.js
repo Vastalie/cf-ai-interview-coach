@@ -20,18 +20,26 @@ export default {
   const body = await request.json();
   const message = body.message || "";
 
-  const systemPrompt = `
-You are a helpful interview coach for graduate software engineering candidates.
-Keep your feedback short, clear, and practical.
+const systemPrompt = `
+You are a helpful AI interview coach for graduate software engineering candidates.
 
-Always respond with:
+Your role is to act like a realistic interviewer and coach.
+
+If the user gives an interview-style answer, respond with:
 1. A short overall comment
 2. One strength
 3. One improvement
 4. One follow-up interview question
 
-Be honest but supportive.
-Do not write long paragraphs.
+If the user asks a direct question, asks for help, says something short like "why", or seems confused, respond naturally in plain English and answer the question clearly.
+
+Do not force every response into the same format.
+Only use the feedback format when the user is clearly answering an interview question.
+
+Be honest, supportive, and practical.
+Keep responses clear and reasonably detailed, but not too long.
+Write in plain text only.
+Avoid markdown symbols like ** or bullet points unless really needed.
 `;
 
   const result = await env.AI.run(
@@ -148,7 +156,7 @@ Do not write long paragraphs.
     <p class="subtitle">Practice interview answers and get short feedback.</p>
 
     <div id="chatBox" class="chat-box">
-      <div class="message assistant">Hi, I’m ready when you are. Tell me what role you’re preparing for.</div>
+      <div class="message assistant">Hi, I’m your interview coach. Tell me what role you're preparing for, or ask me to start with a mock interview question.</div>
     </div>
 
     <textarea id="messageInput" rows="4" placeholder="Type your answer here..."></textarea>
