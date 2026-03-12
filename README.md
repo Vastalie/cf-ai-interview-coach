@@ -7,10 +7,12 @@ The application allows users to practise interview answers and receive short fee
 
 ## Features
 
-- Simple chat interface
-- AI-generated feedback on interview answers
-- Runs using Cloudflare Workers
-- Uses Cloudflare AI models
+- Chat interface for practising interview answers
+- AI feedback on interview responses (overall comment, strength, improvement, follow-up question)
+- Ability to ask general questions about interviews or software engineering
+- Ability to ask other questions and receive AI-generated responses
+- Enter key support for sending messages (Shift + Enter for new lines)
+- Built using Cloudflare Workers and Cloudflare AI
 
 
 ## Technologies Used
@@ -23,21 +25,60 @@ The application allows users to practise interview answers and receive short fee
 
 ## How the Application Works
 
-1. The user types an interview answer in the input box.
-2. The message is sent to a Cloudflare Worker.
-3. The Worker sends the message to a Cloudflare AI model.
-4. The AI generates short feedback on the answer.
-5. The feedback appears in the chat interface.
+1. When the application loads, the AI coach greets the user with a default message:
+"Hi, I’m your interview coach. Tell me what role you’re preparing for, or ask me to start with a mock interview question."
+2. The user can then:
+   - answer interview-style questions
+   - ask for a mock interview question
+   - ask general questions related to interviews or software engineering
+   - ask other general questions    
+3. The message is sent to a Cloudflare Worker backend.
+4. The Worker sends the message to a Cloudflare AI model.
+5. The AI analyses the message and responds accordingly:
+   - If the user gives an interview-style answer, the AI provides:
+   - an overall comment
+   - one strength
+   - one improvement
+   - a follow-up question
+   - If the user asks a normal question, the AI responds naturally with a clear explanation.
+6. The response is returned to the browser and displayed in the chat interface.
 
+## Example Interaction
+
+When the application loads, the AI coach starts with:
+
+AI:
+Hi, I’m your interview coach. Tell me what role you’re preparing for, or ask me to start with a mock interview question.
+
+
+Example 1 – Interview answer feedback
+
+User:
+"I enjoy building secure applications and solving technical problems."
+
+AI:
+Overall: This is a good start because it clearly shows your interest in security and problem solving.
+
+Strength: You communicate enthusiasm for building practical software solutions.
+
+Improvement: Try adding a short example of a project where you implemented a security feature or solved a technical challenge.
+
+Follow-up question: Can you describe a project where you improved the security of an application?
+
+
+Example 2 – Asking a normal question
+
+User:
+"What should I include in a good answer to the question 'Tell me about yourself'?"
+
+AI:
+A strong answer should briefly explain your background, highlight relevant skills or projects, and connect your experience to the role you are applying for. Try structuring it with your education, a key project or internship, and why you are interested in the role.
 
 ## AI Prompt Used
 
 The AI is instructed with the following prompt:
-
 Act as an interview coach.
-
 Review the user's interview answer and give short feedback on how they can improve it.
-
 Be honest but supportive.  
 Do not write long paragraphs.
 
